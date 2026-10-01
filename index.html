@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Achados e Perdidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <h1>Achados e Perdidos</h1>
+    <p>Perdeu algo? Achou algo? Pendure aqui no mural.</p>
+    <button class="btn btn-principal" id="abrir-form" type="button">Cadastrar item</button>
+  </header>
+
+  <main>
+    <section class="controles" aria-label="Filtros">
+      <div class="filtros" role="group" aria-label="Filtrar por tipo">
+        <button class="filtro ativo" data-tipo="todos" type="button">Todos</button>
+        <button class="filtro" data-tipo="perdido" type="button">Perdidos</button>
+        <button class="filtro" data-tipo="encontrado" type="button">Encontrados</button>
+      </div>
+      <label class="busca">
+        <span class="sr">Buscar por palavra-chave</span>
+        <input type="search" id="busca" placeholder="Buscar por nome, descrição ou local">
+      </label>
+    </section>
+
+    <p class="contagem" id="contagem" aria-live="polite"></p>
+    <section class="mural" id="mural" aria-live="polite"></section>
+    <p class="vazio" id="vazio" hidden>Nenhum item por aqui. Cadastre o primeiro ou mude o filtro.</p>
+  </main>
+
+  <dialog id="dialogo">
+    <form id="form" enctype="multipart/form-data" novalidate>
+      <h2>Novo item</h2>
+
+      <fieldset class="tipo">
+        <legend>O item foi…</legend>
+        <label><input type="radio" name="tipo" value="perdido" checked> Perdido</label>
+        <label><input type="radio" name="tipo" value="encontrado"> Encontrado</label>
+      </fieldset>
+
+      <label>Nome do item
+        <input name="nome" required maxlength="80" placeholder="Ex.: Garrafa azul">
+      </label>
+      <label>Descrição
+        <textarea name="descricao" required maxlength="300" rows="3" placeholder="Cor, marca, detalhes que ajudem a identificar"></textarea>
+      </label>
+      <label>Local
+        <input name="local" required maxlength="80" placeholder="Ex.: Laboratório 3">
+      </label>
+      <label>Contato
+        <input name="contato" required maxlength="80" placeholder="E-mail ou telefone">
+      </label>
+      <label>Foto (opcional)
+        <input type="file" name="imagem" accept="image/*">
+      </label>
+
+      <p class="erro" id="erro-form" role="alert" hidden></p>
+      <div class="acoes">
+        <button class="btn" type="button" id="cancelar">Cancelar</button>
+        <button class="btn btn-principal" type="submit">Salvar item</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
